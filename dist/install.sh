@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
 # Installs pi-radio-gadget on the Raspberry Pi: builds it here, or installs a binary built elsewhere.
 #
 #   sudo ./dist/install.sh                       build + install, leave the service disabled

@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* Bounded FIFO of byte packets, producer/consumer safe (mutex + condvar).
  *
  * Why it exists: a write() to a USB IN endpoint blocks until the *host* polls it.

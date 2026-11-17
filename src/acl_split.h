@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* Re-frames the byte stream arriving on the bulk OUT endpoint into whole HCI ACL packets.
  *
  * read() on the endpoint returns whatever the USB layer delivered: possibly part of a

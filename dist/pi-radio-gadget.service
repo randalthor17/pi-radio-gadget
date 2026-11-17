@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
 [Unit]
 Description=Raspberry Pi as a USB WiFi + Bluetooth dongle for a PC
 Documentation=file:///opt/pi-radio-gadget/README.md

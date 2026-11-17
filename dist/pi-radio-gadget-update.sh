@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
 # Applies an update dropped onto the SD card's boot partition (so a PC can update the Pi without any network):
 #
 #   /boot/firmware/pi-radio-gadget-update/   containing any of: pi-radio-gadget (binary), *.sh, pi-radio-gadget.service,

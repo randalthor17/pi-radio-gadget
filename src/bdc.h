@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* BDC framing: how Ethernet frames and firmware events travel over the bulk endpoints.
  *
  *   [flags prio flags2 data_offset] [data_offset*4 bytes of firmware signals] [Ethernet frame]

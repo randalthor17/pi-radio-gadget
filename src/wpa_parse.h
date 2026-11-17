@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* Pure helpers for talking to wpa_supplicant's control interface: text parsing and the mapping
  * from the firmware-style join parameters to supplicant network settings. No I/O here, so it is
  * all unit tested. */

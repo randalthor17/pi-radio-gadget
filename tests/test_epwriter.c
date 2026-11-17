@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* The IN-endpoint writer, exercised against a pipe: ordering, keep-alive, gating, shutdown. */
 #include <fcntl.h>
 #include <poll.h>

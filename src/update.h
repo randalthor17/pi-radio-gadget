@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 #pragma once
 /*
  * Updating the daemon from the PC over the USB link, no network and no SD card.

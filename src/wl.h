@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* Wire formats of the Broadcom FullMAC "dongle" protocol, as the Linux brcmfmac driver
  * speaks it (drivers/net/wireless/broadcom/brcm80211/brcmfmac). Numbers were taken from
  * that driver's headers (fwil_types.h, fweh.h, bcdc.c). All multi-byte fields little endian

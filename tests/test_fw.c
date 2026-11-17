@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* Drives the emulated firmware the way brcmfmac does, byte for byte, with a recording backend. */
 #include <endian.h>
 #include "bdc.h"

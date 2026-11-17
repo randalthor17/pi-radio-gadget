@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 #include <pthread.h>
 #include <unistd.h>
 #include "check.h"

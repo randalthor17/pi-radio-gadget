@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* What the emulated Broadcom firmware needs from "the radio". Two implementations:
  *   backend_sup.c   drives the Pi's real WiFi chip through wpa_supplicant + an AF_PACKET tap
  *   backend_fake.c  synthetic networks, no radio touched: for bring-up and tests

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-2.0-or-later
 # Cross-builds the daemon for the Pi (static aarch64, musl: runs on any Pi OS, no glibc version issues).
 #
 #   scripts/cross-build.sh [OUTPUT_DIR]        default: build-aarch64/pi-radio-gadget

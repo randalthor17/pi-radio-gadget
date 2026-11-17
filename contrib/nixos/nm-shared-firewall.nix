@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
 # NixOS: let clients of a NetworkManager hotspot ("shared" connection) reach the PC's DHCP and DNS server.
 #
 # NetworkManager runs dnsmasq for shared connections, but the NixOS firewall drops DHCP/DNS from the clients. Fedora's firewalld

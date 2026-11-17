@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* Minimal thread-safe logging. One fprintf per line so threads don't interleave. */
 #pragma once
 #include <stddef.h>

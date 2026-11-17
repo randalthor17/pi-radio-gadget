@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* Data-path test against a virtual Ethernet pair. Needs root (to create the veth pair);
  * exits 77 (meson: skipped) otherwise. */
 #include <arpa/inet.h>

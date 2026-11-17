@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* The real radio: the Pi's own WiFi chip, driven through a private wpa_supplicant, with an
  * AF_PACKET tap on the interface as the data path.
  *

@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* FunctionFS plumbing shared by every USB function this gadget exposes.
  *
  * FunctionFS wants two blobs written to ep0, in this order:

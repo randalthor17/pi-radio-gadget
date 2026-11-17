@@ -80,3 +80,8 @@ update over USB, including a deliberately broken update after which the previous
 
 Not verified: WPA3 and hidden networks on real access points, WPA-Enterprise (not implemented), hotspots with several clients,
 and very long sessions (hours) of anything.
+
+## License
+
+GPL-2.0-or-later. The full text is in [COPYING](COPYING); every source file carries an SPDX identifier. The daemon talks to
+Linux kernel drivers and mirrors some of their definitions, which is why it follows the kernel's licence family.

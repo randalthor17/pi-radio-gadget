@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* WiFi function: the PC's stock Linux `brcmfmac` driver sees a Broadcom FullMAC USB WiFi
  * dongle that is already running its firmware, and talks to an emulation of that firmware
  * (fw.c) backed by the Pi's own radio.

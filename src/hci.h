@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* Bluetooth function: the PC's stack sees a USB Bluetooth dongle (class E0/01/01);
  * every byte is relayed to the Pi's real controller through an HCI *user channel* socket.
  *

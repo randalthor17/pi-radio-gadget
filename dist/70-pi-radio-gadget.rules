@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
 # Lets the logged-in user talk to the Pi gadget with pi-radio-gadget-flash without being root.
 # On NixOS: services.udev.extraRules = ''<contents of this line>'';
 SUBSYSTEM=="usb", ATTR{idVendor}=="0a5c", ATTR{idProduct}=="0bdc", TAG+="uaccess"

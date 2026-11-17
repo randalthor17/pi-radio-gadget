@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* Ethernet tap on a network interface (AF_PACKET): the data path of the WiFi radio backend.
  *
  * The Pi's FullMAC WiFi chip converts between 802.11 and Ethernet itself, so the data path is

@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* Synthetic radio: a couple of made-up networks, joins that succeed or fail on demand.
  * No hardware is touched. Used to bring up the USB/driver side, and by the tests. */
 #include <pthread.h>

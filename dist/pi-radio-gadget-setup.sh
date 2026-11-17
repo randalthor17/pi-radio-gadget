@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
 # Creates / removes the composite USB gadget (configfs) for pi-radio-gadget.
 #
 #   pi-radio-gadget-setup.sh up|down

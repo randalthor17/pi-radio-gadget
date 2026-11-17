@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-2.0-or-later
 # Records the USB traffic between this PC and the Pi gadget (usbmon text format) for debugging stalls and audio.
 #
 #   sudo scripts/usbmon-capture.sh SECONDS OUTPUT_FILE

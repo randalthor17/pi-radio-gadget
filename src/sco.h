@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* Bluetooth SCO (call audio) over the USB transport, as pure logic.
  *
  * On USB a SCO packet (3-byte header: handle+flags u16, data length u8, then the audio) travels on isochronous

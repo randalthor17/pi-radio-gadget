@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* pi-radio-gadget: Raspberry Pi Zero 2 W as a USB Bluetooth + WiFi dongle for a PC.
  *
  * One process drives both USB functions of a composite gadget:

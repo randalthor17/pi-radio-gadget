@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /* Emulated Broadcom FullMAC firmware, as seen by the PC's brcmfmac driver.
  *
  * It answers the driver's ioctl/iovar dialogue ("dcmds"), turns the driver's scan and join

@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
 # Gives the Pi's WiFi interface back to the system after pi-radio-gadget has used it.
 #
 #   pi-radio-gadget-radio.sh restore

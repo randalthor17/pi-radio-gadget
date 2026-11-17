@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /*
  * pi-radio-gadget-flash: push a new pi-radio-gadget daemon binary to the Pi over the USB link it already provides.
  *
