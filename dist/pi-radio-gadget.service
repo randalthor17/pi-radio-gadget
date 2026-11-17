@@ -1,12 +1,12 @@
 [Unit]
 Description=Raspberry Pi as a USB WiFi + Bluetooth dongle for a PC
-Documentation=file:///opt/pi-radiogadget/README.md
+Documentation=file:///opt/pi-radio-gadget/README.md
 # The Bluetooth controller must be free of bluetoothd, and the old prototype services (if any) hold the UDC.
 Conflicts=bluetooth.service btgadget.service wifigadget.service
 After=local-fs.target sysinit.target
-# Escape hatch: create an empty file /boot/firmware/pi-radiogadget.disable (editable from any PC by mounting the
+# Escape hatch: create an empty file /boot/firmware/pi-radio-gadget.disable (editable from any PC by mounting the
 # SD card's boot partition) to stop the service from starting, e.g. to get SSH over WiFi back.
-ConditionPathExists=!/boot/firmware/pi-radiogadget.disable
+ConditionPathExists=!/boot/firmware/pi-radio-gadget.disable
 # Not WantedBy network-online: when this runs, the Pi's own WiFi belongs to the PC.
 
 # Give up after repeated failures instead of looping forever: the failed service has already handed the
@@ -16,12 +16,12 @@ StartLimitBurst=6
 
 [Service]
 Type=simple
-EnvironmentFile=-/etc/default/pi-radiogadget
-ExecStartPre=-/opt/pi-radiogadget/pi-radiogadget-update.sh
-ExecStartPre=/opt/pi-radiogadget/pi-radiogadget-setup.sh up
-ExecStart=/opt/pi-radiogadget/pi-radiogadget --udc-file /sys/kernel/config/usb_gadget/piradiogadget/UDC --log-file /boot/firmware/pi-radiogadget.log $PI_RADIOGADGET_ARGS
-ExecStopPost=/opt/pi-radiogadget/pi-radiogadget-setup.sh down
-ExecStopPost=-/opt/pi-radiogadget/pi-radiogadget-radio.sh restore
+EnvironmentFile=-/etc/default/pi-radio-gadget
+ExecStartPre=-/opt/pi-radio-gadget/pi-radio-gadget-update.sh
+ExecStartPre=/opt/pi-radio-gadget/pi-radio-gadget-setup.sh up
+ExecStart=/opt/pi-radio-gadget/pi-radio-gadget --udc-file /sys/kernel/config/usb_gadget/pi-radio-gadget/UDC --log-file /boot/firmware/pi-radio-gadget.log $PI_RADIO_GADGET_ARGS
+ExecStopPost=/opt/pi-radio-gadget/pi-radio-gadget-setup.sh down
+ExecStopPost=-/opt/pi-radio-gadget/pi-radio-gadget-radio.sh restore
 Restart=on-failure
 RestartSec=3
 TimeoutStartSec=90

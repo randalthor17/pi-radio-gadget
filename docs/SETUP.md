@@ -31,8 +31,8 @@ NetworkManager and give it back), `iw` (to switch off radio power saving) and, f
 Copy this directory to the Pi (`scp -r`, `git clone`, ...), then on the Pi:
 
 ```
-sudo ./dist/install.sh            # build, run the unit tests, install to /opt/pi-radiogadget, leave the service disabled
-sudo systemctl start pi-radiogadget
+sudo ./dist/install.sh            # build, run the unit tests, install to /opt/pi-radio-gadget, leave the service disabled
+sudo systemctl start pi-radio-gadget
 ```
 
 Try it now (next section). When you are happy, make it start at every boot:
@@ -41,21 +41,29 @@ Try it now (next section). When you are happy, make it start at every boot:
 sudo ./dist/install.sh --enable
 ```
 
-`install.sh --uninstall` removes the daemon and the unit again (it keeps `/etc/default/pi-radiogadget`).
+`install.sh --uninstall` removes the daemon and the unit again (it keeps `/etc/default/pi-radio-gadget`).
 
 ### B. Cross-build on the PC and copy it over
 
 ```
-scripts/cross-build.sh                      # -> build-aarch64/pi-radiogadget (static aarch64, needs nix or an aarch64 cross compiler)
+scripts/cross-build.sh                      # -> build-aarch64/pi-radio-gadget (static aarch64, needs nix or an aarch64 cross compiler)
 ```
 
-The first installation of a binary still needs a way onto the Pi: `scp` it and install it by hand, or run `install.sh` on the Pi once
-(option A). After that, every later build is pushed over the USB cable, see [OPERATIONS.md](OPERATIONS.md).
+Copy the binary and this directory to the Pi (`scp -r`) and install the prebuilt binary, without needing build tools there:
+
+```
+sudo ./dist/install.sh --binary pi-radio-gadget --enable
+```
+
+After that, every later build is pushed over the USB cable, see [OPERATIONS.md](OPERATIONS.md).
+
+An installation made under the project's old name (`pi-radiogadget`, before 0.4.0) is migrated by the same command: the old service and
+files are removed and the settings carried over.
 
 ## 3. First run
 
 ```
-sudo systemctl start pi-radiogadget        # on the Pi; its own WiFi/SSH disappear now, that is expected
+sudo systemctl start pi-radio-gadget        # on the Pi; its own WiFi/SSH disappear now, that is expected
 ```
 
 On the PC, within about 25 s, a WiFi interface and a Bluetooth controller appear (`nmcli device`, `bluetoothctl list`).
@@ -72,10 +80,10 @@ If nothing appears, or you need the Pi's SSH back, see [OPERATIONS.md](OPERATION
 
 Normal use needs nothing. Optional pieces:
 
-* **The flash/status tool** (`pi-radiogadget-flash`, built with `meson setup build && ninja -C build`, binary in `build/`) talks to the
+* **The flash/status tool** (`pi-radio-gadget-flash`, built with `meson setup build && ninja -C build`, binary in `build/`) talks to the
   device through `/dev/bus/usb`. Run it as root, or install the udev rule so your logged-in user may:
   ```
-  sudo cp dist/70-pi-radiogadget.rules /etc/udev/rules.d/ && sudo udevadm control --reload && sudo udevadm trigger
+  sudo cp dist/70-pi-radio-gadget.rules /etc/udev/rules.d/ && sudo udevadm control --reload && sudo udevadm trigger
   ```
   On NixOS put the rule's content in `services.udev.extraRules`.
 * **Hotspots and your firewall.** A hotspot (NetworkManager "shared" mode) runs a DHCP/DNS server on the PC. Many firewalls drop
@@ -94,16 +102,16 @@ Normal use needs nothing. Optional pieces:
 
 ## 5. Configuration
 
-`/etc/default/pi-radiogadget` (created by the installer if missing):
+`/etc/default/pi-radio-gadget` (created by the installer if missing):
 
 | Variable | Meaning |
 |---|---|
-| `PI_RADIOGADGET_WLAN=1/0` | expose the WiFi function |
-| `PI_RADIOGADGET_HCI=1/0` | expose the Bluetooth function |
-| `PI_RADIOGADGET_ARGS` | extra daemon options (`pi-radiogadget --help`). The default is `--sco-over-hci`, which Bluetooth **call audio needs**. `-v`/`-vv` raise the log level, `--wlan-iface`, `--hci-dev`, `--keepalive-ms` and others exist |
-| `PI_RADIOGADGET_MAX_SPEED` | `full-speed` caps the USB link at 12 Mbit/s (an experiment knob, not a fix for anything known) |
+| `PI_RADIO_GADGET_WLAN=1/0` | expose the WiFi function |
+| `PI_RADIO_GADGET_HCI=1/0` | expose the Bluetooth function |
+| `PI_RADIO_GADGET_ARGS` | extra daemon options (`pi-radio-gadget --help`). The default is `--sco-over-hci`, which Bluetooth **call audio needs**. `-v`/`-vv` raise the log level, `--wlan-iface`, `--hci-dev`, `--keepalive-ms` and others exist |
+| `PI_RADIO_GADGET_MAX_SPEED` | `full-speed` caps the USB link at 12 Mbit/s (an experiment knob, not a fix for anything known) |
 
-Restart after changing it: `sudo systemctl restart pi-radiogadget`.
+Restart after changing it: `sudo systemctl restart pi-radio-gadget`.
 
 ## 6. Removing it
 

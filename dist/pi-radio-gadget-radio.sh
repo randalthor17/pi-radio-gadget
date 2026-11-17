@@ -1,18 +1,18 @@
 #!/bin/bash
-# Gives the Pi's WiFi interface back to the system after pi-radiogadget has used it.
+# Gives the Pi's WiFi interface back to the system after pi-radio-gadget has used it.
 #
-#   pi-radiogadget-radio.sh restore
+#   pi-radio-gadget-radio.sh restore
 #
 # The daemon does this itself on a clean exit. This script exists for the other exits (crash,
 # SIGKILL, power-fail mid-run): systemd runs it from ExecStopPost, so it must be idempotent.
 set -u
-IF="${PI_RADIOGADGET_IFACE:-wlan0}"
+IF="${PI_RADIO_GADGET_IFACE:-wlan0}"
 
 [ "$(id -u)" = 0 ] || { echo "run as root" >&2; exit 1; }
 
 restore() {
-    pkill -f "wpa_supplicant -i $IF -D nl80211 -C /run/pi-radiogadget" 2>/dev/null || true
-    pkill -f "hostapd .*/run/pi-radiogadget" 2>/dev/null || true     # a hotspot that outlived the daemon
+    pkill -f "wpa_supplicant -i $IF -D nl80211 -C /run/pi-radio-gadget" 2>/dev/null || true
+    pkill -f "hostapd .*/run/pi-radio-gadget" 2>/dev/null || true     # a hotspot that outlived the daemon
     sleep 0.5
 
     # The PC may have changed the MAC address; put the factory one back.
@@ -31,7 +31,7 @@ restore() {
         nmcli device set "$IF" managed yes 2>/dev/null || true
         nmcli --wait 0 device connect "$IF" >/dev/null 2>&1 || true
     fi
-    rm -rf /run/pi-radiogadget
+    rm -rf /run/pi-radio-gadget
 }
 
 case "${1:-}" in

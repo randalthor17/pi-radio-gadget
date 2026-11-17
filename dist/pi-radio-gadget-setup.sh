@@ -1,7 +1,7 @@
 #!/bin/bash
-# Creates / removes the composite USB gadget (configfs) for pi-radiogadget.
+# Creates / removes the composite USB gadget (configfs) for pi-radio-gadget.
 #
-#   pi-radiogadget-setup.sh up|down
+#   pi-radio-gadget-setup.sh up|down
 #
 # The gadget has three FunctionFS functions. The ORDER matters:
 #   1. ffs.wlan  must come first: it becomes USB interface 0, because the PC's brcmfmac driver
@@ -9,18 +9,18 @@
 #   2. ffs.hci   second: it claims device-recipient class requests (HCI commands), which the
 #                kernel hands to the first function that asks for them.
 #   3. ffs.sco   third: the Bluetooth call-audio interface; btusb expects it right after the HCI one.
-# The daemon (pi-radiogadget) writes the function descriptors and attaches the UDC itself.
+# The daemon (pi-radio-gadget) writes the function descriptors and attaches the UDC itself.
 #
 # One-time prerequisite: dtoverlay=dwc2 in /boot/firmware/config.txt. Plug the PC into the
 # Pi's DATA micro-USB port (the middle one), not the PWR port.
 set -eu
 
-G=/sys/kernel/config/usb_gadget/piradiogadget
+G=/sys/kernel/config/usb_gadget/pi-radio-gadget
 FFS_WLAN=/dev/ffs-wlan
 FFS_HCI=/dev/ffs-hci
 FFS_SCO=/dev/ffs-sco
-ENABLE_WLAN="${PI_RADIOGADGET_WLAN:-1}"
-ENABLE_HCI="${PI_RADIOGADGET_HCI:-1}"
+ENABLE_WLAN="${PI_RADIO_GADGET_WLAN:-1}"
+ENABLE_HCI="${PI_RADIO_GADGET_HCI:-1}"
 
 [ "$(id -u)" = 0 ] || { echo "run as root" >&2; exit 1; }
 
@@ -86,7 +86,7 @@ up() {
     echo 0x0100 > bcdDevice
     echo 0x0200 > bcdUSB
     # Optional speed cap: low-speed|full-speed|high-speed (default: the controller maximum).
-    [ -n "${PI_RADIOGADGET_MAX_SPEED:-}" ] && echo "$PI_RADIOGADGET_MAX_SPEED" > max_speed
+    [ -n "${PI_RADIO_GADGET_MAX_SPEED:-}" ] && echo "$PI_RADIO_GADGET_MAX_SPEED" > max_speed
     echo 0xef > bDeviceClass
     echo 0x02 > bDeviceSubClass
     echo 0x01 > bDeviceProtocol

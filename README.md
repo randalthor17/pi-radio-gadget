@@ -9,13 +9,11 @@ the thinking, the Pi's own radio does the radio work. Nothing needs to be instal
 ```
  PC (stock Linux)                          Raspberry Pi Zero 2 W
  ┌─────────────────────────┐  one USB     ┌─────────────────────────────────┐
- │ NetworkManager          │  cable       │ pi-radiogadget daemon           │
+ │ NetworkManager          │  cable       │ pi-radio-gadget daemon           │
  │ brcmfmac  ─────────────────────────────┼─► emulated Broadcom dongle ─────┼─► Pi's WiFi chip
  │ btusb / bluetoothd ────────────────────┼─► HCI + call-audio relay ───────┼─► Pi's Bluetooth chip
  └─────────────────────────┘              └─────────────────────────────────┘
 ```
-
-(The repository is `pi-radio-gadget`; the daemon, service and tools keep the name `pi-radiogadget`.)
 
 ## What works
 
@@ -49,7 +47,7 @@ tried: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) §5.
    ```
 
 > **While the service runs, the Pi's own WiFi belongs to the PC**, so there is no WiFi or SSH on the Pi itself. That is the
-> point of the project. To get SSH back without opening the Pi, run `pi-radiogadget-flash --stop` on the PC
+> point of the project. To get SSH back without opening the Pi, run `pi-radio-gadget-flash --stop` on the PC
 > ([docs/OPERATIONS.md](docs/OPERATIONS.md)).
 
 ## Documentation
@@ -67,7 +65,7 @@ tried: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) §5.
 |---|---|
 | `src/` | the daemon (C11, no dependencies besides libc and pthreads) |
 | `tests/` | unit tests, no hardware needed (`meson test`) |
-| `tools/flash.c` | `pi-radiogadget-flash`: PC-side tool to update or stop the daemon over USB, and to read its status |
+| `tools/flash.c` | `pi-radio-gadget-flash`: PC-side tool to update or stop the daemon over USB, and to read its status |
 | `dist/` | systemd unit, gadget setup script, installer, update/rollback script, udev rule |
 | `scripts/` | cross-build for the Pi, USB traffic capture |
 | `contrib/nixos/` | NixOS module that lets hotspot clients reach the PC's DHCP/DNS |

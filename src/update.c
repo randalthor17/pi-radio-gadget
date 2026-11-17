@@ -35,7 +35,7 @@ void upd_init(struct upd *u, const char *target, void (*restart)(void))
     int dir = slash ? (int)(slash - target) : 0;
     snprintf(u->pending, sizeof u->pending, "%.*s%spending", dir, target, slash ? "/" : "");
     u->restart = restart;
-    snprintf(u->disable, sizeof u->disable, "%s", "/boot/firmware/pi-radiogadget.disable");
+    snprintf(u->disable, sizeof u->disable, "%s", "/boot/firmware/pi-radio-gadget.disable");
     snprintf(u->last, sizeof u->last, "idle");
 }
 
@@ -157,7 +157,7 @@ size_t upd_status(const struct upd *u, char *buf, size_t size)
 {
     const char *st = u->state == UPD_IDLE ? "idle" : u->state == UPD_RECEIVING ? "receiving" : "done";
     int pending = access(u->pending, F_OK) == 0;
-    int n = snprintf(buf, size, "pi-radiogadget %s (%s %s) state=%s got=%u/%u pending=%d last=\"%s\"", PIRG_VERSION,
+    int n = snprintf(buf, size, "pi-radio-gadget %s (%s %s) state=%s got=%u/%u pending=%d last=\"%s\"", PIRG_VERSION,
                      __DATE__, __TIME__, st, u->got, u->len, pending, u->last);
     size_t len = n < 0 ? 0 : ((size_t)n >= size ? size - 1 : (size_t)n);
     if (u->extra && len + 2 < size) {

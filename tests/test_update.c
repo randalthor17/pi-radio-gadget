@@ -55,7 +55,7 @@ int main(void)
     char dir[] = "/tmp/pirg-upd-XXXXXX";
     CHECK(mkdtemp(dir) != NULL, "mkdtemp");
     char target[300];
-    snprintf(target, sizeof target, "%s/pi-radiogadget", dir);
+    snprintf(target, sizeof target, "%s/pi-radio-gadget", dir);
     FILE *f = fopen(target, "w"); fputs("OLD-BINARY", f); fclose(f);
 
     static uint8_t img[10000];

@@ -1,9 +1,9 @@
-# /etc/default/pi-radiogadget: settings for pi-radiogadget.service
+# /etc/default/pi-radio-gadget: settings for pi-radio-gadget.service
 #
 # Which functions to expose (1 = on, 0 = off):
-PI_RADIOGADGET_WLAN=1
-PI_RADIOGADGET_HCI=1
+PI_RADIO_GADGET_WLAN=1
+PI_RADIO_GADGET_HCI=1
 # Extra daemon options, e.g. "-v" for debug logging, "--wlan-iface wlan0", "--hci-dev 0", "--keepalive-ms 0".
-# Logs go to the journal: journalctl -u pi-radiogadget
+# Logs go to the journal: journalctl -u pi-radio-gadget
 # --sco-over-hci routes Bluetooth call audio (HFP) through the host; without it calls carry no sound.
-PI_RADIOGADGET_ARGS=--sco-over-hci
+PI_RADIO_GADGET_ARGS=--sco-over-hci

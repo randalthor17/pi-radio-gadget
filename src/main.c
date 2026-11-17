@@ -1,10 +1,10 @@
-/* pi-radiogadget: Raspberry Pi Zero 2 W as a USB Bluetooth + WiFi dongle for a PC.
+/* pi-radio-gadget: Raspberry Pi Zero 2 W as a USB Bluetooth + WiFi dongle for a PC.
  *
  * One process drives both USB functions of a composite gadget:
  *   - FunctionFS "ffs.wlan" : emulated Broadcom USB WiFi dongle backed by the Pi's radio
  *   - FunctionFS "ffs.hci"  : USB Bluetooth dongle backed by the Pi's HCI controller
  *
- * The gadget itself (configfs) is created by pi-radiogadget-setup.sh; this daemon writes the
+ * The gadget itself (configfs) is created by pi-radio-gadget-setup.sh; this daemon writes the
  * function descriptors, attaches the UDC once both functions are ready, and then relays.
  */
 #include <errno.h>
@@ -65,7 +65,7 @@ static void usage(const char *argv0)
         "  --hci-dev N          controller index                  (default 0)\n"
         "  --wlan-backend B     sup (real radio) or fake          (default sup)\n"
         "  --wlan-iface IF      the Pi's WiFi interface           (default wlan0)\n"
-        "  --wlan-ctrl DIR      wpa_supplicant control directory  (default /run/pi-radiogadget/wpa)\n"
+        "  --wlan-ctrl DIR      wpa_supplicant control directory  (default /run/pi-radio-gadget/wpa)\n"
         "  --wlan-mac MAC       override the dongle MAC (fake backend only)\n"
         "  --udc-file PATH      configfs UDC file to write once ready\n"
         "  --udc NAME           UDC to attach (default: first in /sys/class/udc)\n"
@@ -74,7 +74,7 @@ static void usage(const char *argv0)
         "  --sco-over-hci       experimental: send call audio over HCI (can hang the Pi's Bluetooth chip)\n"
         "  --log-file PATH      also write INFO+ lines to PATH (max 256 KB)\n"
         "  --keepalive-ms N     WiFi IN-pipe keep-alive period, 0 = off    (default 2)\n"
-        "  -v / -q              more / less logging (also PI_RADIOGADGET_LOG=0..4)\n",
+        "  -v / -q              more / less logging (also PI_RADIO_GADGET_LOG=0..4)\n",
         argv0);
 }
 
@@ -119,13 +119,13 @@ int main(int argc, char **argv)
     /* keepalive_ms: see ffs.h (ep_writer). 2 ms keeps the WiFi IN pipe from ever idling. */
     struct wlan_fn wlan = { .ffs_dir = "/dev/ffs-wlan", .keepalive_ms = 2 };
     bool use_hci = true, use_wlan = true;
-    const char *backend = "sup", *iface = "wlan0", *ctrl = "/run/pi-radiogadget/wpa";
+    const char *backend = "sup", *iface = "wlan0", *ctrl = "/run/pi-radio-gadget/wpa";
     const char *udc_file = NULL, *udc_name = NULL, *mac_opt = NULL;
     char udc_buf[64];
     int level = LOG_INFO;
 
-    if (getenv("PI_RADIOGADGET_LOG"))
-        level = atoi(getenv("PI_RADIOGADGET_LOG"));
+    if (getenv("PI_RADIO_GADGET_LOG"))
+        level = atoi(getenv("PI_RADIO_GADGET_LOG"));
 
     enum { O_FFS_HCI = 256, O_FFS_SCO, O_FFS_WLAN, O_NO_HCI, O_NO_WLAN, O_HCI_DEV, O_BACKEND, O_IFACE, O_CTRL,
            O_MAC, O_UDC_FILE, O_UDC, O_INT_MAXP, O_NO_ZLP, O_KEEPALIVE, O_LOGFILE, O_SCOHCI };
@@ -176,7 +176,7 @@ int main(int argc, char **argv)
         upd_exe[n > 0 ? n : 0] = 0;
     }
     struct upd upd;
-    upd_init(&upd, upd_exe[0] ? upd_exe : "/nonexistent/pi-radiogadget", request_restart);
+    upd_init(&upd, upd_exe[0] ? upd_exe : "/nonexistent/pi-radio-gadget", request_restart);
     hci.upd = &upd;
     upd.stop = request_stop;
     g_hci = use_hci ? &hci : NULL;

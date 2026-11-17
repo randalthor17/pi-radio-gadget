@@ -559,7 +559,7 @@ static int var_get(struct fw *f, const char *name, const uint8_t *in, size_t inl
     if (!strcmp(name, "cur_etheraddr"))
         return out_put(o, f->mac, 6);
     if (!strcmp(name, "ver"))
-        return out_str(o, "wl0: Nov  9 2026 00:00:00 version 7.45.98.0 (pi-radiogadget emulated FullMAC) FWID 01-00000000");
+        return out_str(o, "wl0: Nov  9 2026 00:00:00 version 7.45.98.0 (pi-radio-gadget emulated FullMAC) FWID 01-00000000");
     if (!strcmp(name, "cap"))
         return out_str(o, f->advertise_sae ? "sta idauth sae " : "sta idauth ");
     if (!strcmp(name, "event_msgs"))                  /* the mask the host set (all zero initially) */

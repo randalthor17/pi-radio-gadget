@@ -85,7 +85,7 @@ static void *worker(void *arg)
 
         if (job == 1) {
             f->abort_scan = false;
-            const char *burst_env = getenv("PI_RADIOGADGET_FAKE_BURST");
+            const char *burst_env = getenv("PI_RADIO_GADGET_FAKE_BURST");
             const bool burst = burst_env && *burst_env;
             for (size_t i = 0; i < sizeof nets / sizeof *nets + (burst ? FAKE_EXTRA : 0) && !f->abort_scan; i++) {
                 if (!burst)
@@ -130,12 +130,12 @@ static void *worker(void *arg)
     }
 }
 
-/* PI_RADIOGADGET_FAKE_FLOOD_PPS=N: after a join, stream N frames/s of 1000 bytes (an experimental ethertype the PC
+/* PI_RADIO_GADGET_FAKE_FLOOD_PPS=N: after a join, stream N frames/s of 1000 bytes (an experimental ethertype the PC
  * ignores) towards the host. A stand-in for a download, to stress the USB receive path without a real AP. */
 static void *flood_main(void *arg)
 {
     struct fake *f = arg;
-    const char *e = getenv("PI_RADIOGADGET_FAKE_FLOOD_PPS");
+    const char *e = getenv("PI_RADIO_GADGET_FAKE_FLOOD_PPS");
     long pps = e ? atol(e) : 0;
     if (pps <= 0)
         return NULL;
@@ -185,7 +185,7 @@ static int fk_start(struct wl_backend *be)
 {
     struct fake *f = be->priv;
     int e = -pthread_create(&f->th, NULL, worker, f);
-    if (!e && getenv("PI_RADIOGADGET_FAKE_FLOOD_PPS"))
+    if (!e && getenv("PI_RADIO_GADGET_FAKE_FLOOD_PPS"))
         e = -pthread_create(&f->flood_th, NULL, flood_main, f);
     return e;
 }

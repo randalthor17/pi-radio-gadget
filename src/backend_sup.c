@@ -10,7 +10,7 @@
  * straight to wpa_supplicant as network settings.
  *
  * The Pi's WiFi interface is taken away from NetworkManager while this runs and handed back on
- * exit (and by pi-radiogadget-radio.sh if the daemon dies without cleaning up).
+ * exit (and by pi-radio-gadget-radio.sh if the daemon dies without cleaning up).
  *
  * Threading: one supervisor thread owns the control sockets and runs the queued jobs (so the
  * firmware-facing operations return immediately, as backend.h requires); one thread reads the
@@ -333,7 +333,7 @@ static void apply_country(struct sup *s)
 
 static int wpa_start(struct sup *s)
 {
-    mkdir("/run/pi-radiogadget", 0755);
+    mkdir("/run/pi-radio-gadget", 0755);
     mkdir(s->dir, 0755);
     join_path(s->conf_path, sizeof s->conf_path, s->dir, "../wpa.conf");
     FILE *fp = fopen(s->conf_path, "w");
@@ -922,7 +922,7 @@ static void do_ap_start(struct sup *s, const struct wl_ap_req *r)
         int nul = open("/dev/null", O_RDWR);
         /* hostapd's own output is what explains a hotspot that does not come up: keep it next to the daemon's log on the boot
          * partition (readable from the PC), or in /run when there is none. */
-        const char *logpath = access("/boot/firmware", W_OK) == 0 ? "/boot/firmware/pi-radiogadget-hostapd.log" : "/run/pi-radiogadget/hostapd.log";
+        const char *logpath = access("/boot/firmware", W_OK) == 0 ? "/boot/firmware/pi-radio-gadget-hostapd.log" : "/run/pi-radio-gadget/hostapd.log";
         int lf = open(logpath, O_WRONLY | O_CREAT | O_TRUNC, 0644);
         if (lf >= 0) { dup2(lf, 1); dup2(lf, 2); } else if (nul >= 0) { dup2(nul, 1); dup2(nul, 2); }
         execlp("hostapd", "hostapd", "-d", s->conf_path, (char *)NULL);

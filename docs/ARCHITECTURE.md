@@ -12,7 +12,7 @@ the Pi's USB controller actually behave. Practical notes on the quirks are colle
  │   hostapd          │ <────> │     ├─ ffs.hci  (interface 1: interrupt + 2 bulk)       │
  │ brcmfmac (stock)   │        │     └─ ffs.sco  (interface 2: isochronous audio)        │
  │ btusb + bluetoothd │        │            │                │                           │
- │ PipeWire (calls)   │        │      pi-radiogadget daemon (one process)                │
+ │ PipeWire (calls)   │        │      pi-radio-gadget daemon (one process)                │
  └────────────────────┘        │      ┌─────────┴──────┐   ┌──┴────────────┐             │
                                │      │ wlan function  │   │ hci + sco     │             │
                                │      │  fw.c emulated │   │ HCI relay,    │             │
@@ -46,7 +46,7 @@ Three properties of `brcmfmac` make this practical:
 
 ## 2. The composite gadget and why the order matters
 
-`pi-radiogadget-setup.sh` creates one gadget (configfs) with three FunctionFS functions. The **order of the symlinks is load-bearing**:
+`pi-radio-gadget-setup.sh` creates one gadget (configfs) with three FunctionFS functions. The **order of the symlinks is load-bearing**:
 
 * `ffs.wlan` must be first, so it becomes USB **interface 0**. `brcmfmac` sends its probe-time bootloader requests (`DL_GETVER`) with
   `wIndex = 0` *before* it has recorded its interface number; the kernel routes interface-recipient requests by `wIndex`, so
@@ -144,7 +144,7 @@ daemon does not use that.
 * **Regulatory domain:** the domain the PC's driver selects is passed on to the Pi's radio (`SET country`), unless it is the world domain.
 * **Roaming:** a disconnect followed by a reconnect within 3 s is treated as a roam and hidden from the PC; otherwise the PC gets a
   link-down event.
-* **Hand-back:** on exit (and from `pi-radiogadget-radio.sh` if the daemon dies) the interface is returned to NetworkManager.
+* **Hand-back:** on exit (and from `pi-radio-gadget-radio.sh` if the daemon dies) the interface is returned to NetworkManager.
 
 ## 4. The Bluetooth function
 
@@ -159,7 +159,7 @@ IN) come back. Nothing is interpreted, except what call audio needs (below). Det
   corruption (drop and resync) instead of waiting forever.
 * While the USB host is not enabled, controller traffic is dropped, not queued: stale events from before a reconnect confuse the host.
 * **The Pi's UART Bluetooth controller does not survive a close/reopen cycle**: after the daemon exits, the controller is mute until
-  `hci_uart` is reloaded (which re-runs the firmware patch and baud setup). `pi-radiogadget-setup.sh` reloads it on every start.
+  `hci_uart` is reloaded (which re-runs the firmware patch and baud setup). `pi-radio-gadget-setup.sh` reloads it on every start.
 
 ### Call audio (SCO)
 * **Alternate settings.** The host driver switches the isochronous interface between alternate settings. FunctionFS never reports
@@ -174,7 +174,7 @@ IN) come back. Nothing is interpreted, except what call audio needs (below). Det
   `ENODATA`, so `sco_pace_writer` submits one request per millisecond through AIO, empty ones when there is no audio.
 * **From the host** a read on the isochronous OUT endpoint must not be longer than `wMaxPacketSize` (dwc2 returns `EINVAL`), and an
   `ENODATA` (empty frame) must be retried at once; the packets are re-assembled and sent to the chip.
-* `pi-radiogadget-flash --status` shows live counters (`sco[...] rd[...] acl[...]`).
+* `pi-radio-gadget-flash --status` shows live counters (`sco[...] rd[...] acl[...]`).
 
 ## 5. The USB stall: an open problem, measured, mitigated and self-healing
 
@@ -225,9 +225,9 @@ The control endpoint of the Bluetooth function also answers vendor requests that
 | `0x51` DATA | OUT | a chunk (at most 4096 bytes), offset in `wValue`/`wIndex` |
 | `0x52` COMMIT | OUT | `"COMT"`: verify length, hash and ELF magic; keep the running binary as `.prev`; replace the target atomically; write `pending`; restart |
 | `0x53` STATUS | IN | one text line: version, state, live counters |
-| `0x54` STOP | OUT | `"STOP"`: create `/boot/firmware/pi-radiogadget.disable` and exit (maintenance mode) |
+| `0x54` STOP | OUT | `"STOP"`: create `/boot/firmware/pi-radio-gadget.disable` and exit (maintenance mode) |
 
-The daemon exits with status 75 after a commit, so systemd (`Restart=on-failure`) starts the new binary. `pi-radiogadget-update.sh` (run
+The daemon exits with status 75 after a commit, so systemd (`Restart=on-failure`) starts the new binary. `pi-radio-gadget-update.sh` (run
 by `ExecStartPre`) counts the starts while `pending` exists and restores `.prev` on the second failed start; the daemon deletes
 `pending` after 60 s of uptime. There is no signature (a lost key would lock the owner out; the trust boundary is physical access to
 the USB cable). The same script applies an update folder on the SD card, once.

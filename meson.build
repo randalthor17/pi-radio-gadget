@@ -1,5 +1,5 @@
 project(
-  'pi-radiogadget',
+  'pi-radio-gadget',
   'c',
   meson_version : '>= 1.0',
   version : '0.4.0',
@@ -37,7 +37,7 @@ core_dep = declare_dependency(
 )
 
 exe = executable(
-  'pi-radiogadget',
+  'pi-radio-gadget',
   'src/main.c',
   dependencies : core_dep,
   install : true,
@@ -45,7 +45,7 @@ exe = executable(
 
 # Host-side tool: pushes a new daemon binary to the Pi over USB (see docs/ARCHITECTURE.md).
 executable(
-  'pi-radiogadget-flash',
+  'pi-radio-gadget-flash',
   'tools/flash.c',
   'src/sha256.c',
   include_directories : include_directories('src'),

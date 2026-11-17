@@ -10,7 +10,7 @@
  *
  * Commit verifies length, hash and ELF magic, keeps the running binary as <target>.prev, replaces the target
  * atomically, writes <dir>/pending and asks the daemon to restart. The service script rolls back to .prev if the new
- * binary does not stay up (see dist/pi-radiogadget-update.sh); the daemon removes pending once it has run 60 s.
+ * binary does not stay up (see dist/pi-radio-gadget-update.sh); the daemon removes pending once it has run 60 s.
  */
 #include <stddef.h>
 #include <stdint.h>

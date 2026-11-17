@@ -12,7 +12,7 @@ The `tap` test needs root (a veth pair) and is skipped otherwise. `meson setup b
 tree builds without warnings at the default level.
 
 Cross-build for the Pi: `scripts/cross-build.sh` (static aarch64 with musl; glibc static linking is fragile, musl is not). Push to a
-running Pi: `build/pi-radiogadget-flash build-aarch64/pi-radiogadget`.
+running Pi: `build/pi-radio-gadget-flash build-aarch64/pi-radio-gadget`.
 
 ## Layout
 
@@ -27,24 +27,24 @@ running Pi: `build/pi-radiogadget-flash build-aarch64/pi-radiogadget`.
 | `src/update.c`, `sha256.c` | update-over-USB protocol and maintenance-mode request (receiving side) |
 | `tools/flash.c` | the PC side of the same protocol |
 | `tests/` | one test program per area; `check.h` is the tiny test harness |
-| `dist/` | `pi-radiogadget-setup.sh` (configfs gadget), `pi-radiogadget-update.sh` (SD drop-in and rollback), `pi-radiogadget-radio.sh` (radio hand-back), unit, installer, udev rule |
+| `dist/` | `pi-radio-gadget-setup.sh` (configfs gadget), `pi-radio-gadget-update.sh` (SD drop-in and rollback), `pi-radio-gadget-radio.sh` (radio hand-back), unit, installer, udev rule |
 
 ## Iterating on hardware
 
 The fast loop uses the USB update and maintenance mode, so the SD card stays in the Pi:
 
 ```
-scripts/cross-build.sh && sudo build/pi-radiogadget-flash build-aarch64/pi-radiogadget   # new build running in ~10 s
-sudo build/pi-radiogadget-flash --stop                                                    # SSH back; then edit /etc/default, install scripts, read logs
-# on the Pi: sudo rm /boot/firmware/pi-radiogadget.disable && sudo systemctl start pi-radiogadget
+scripts/cross-build.sh && sudo build/pi-radio-gadget-flash build-aarch64/pi-radio-gadget   # new build running in ~10 s
+sudo build/pi-radio-gadget-flash --stop                                                    # SSH back; then edit /etc/default, install scripts, read logs
+# on the Pi: sudo rm /boot/firmware/pi-radio-gadget.disable && sudo systemctl start pi-radio-gadget
 ```
 
 Try the USB side without touching the Pi's radio (SSH keeps working) with the fake backend:
 
 ```
-sudo dist/pi-radiogadget-setup.sh up
-sudo build/pi-radiogadget --udc-file /sys/kernel/config/usb_gadget/piradiogadget/UDC --wlan-backend fake -vv
-sudo dist/pi-radiogadget-setup.sh down
+sudo dist/pi-radio-gadget-setup.sh up
+sudo build/pi-radio-gadget --udc-file /sys/kernel/config/usb_gadget/pi-radio-gadget/UDC --wlan-backend fake -vv
+sudo dist/pi-radio-gadget-setup.sh down
 ```
 
 Run the daemon with `-v` while diagnosing: dcmd-level logging of everything the PC's driver asks the emulated firmware.

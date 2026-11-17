@@ -1,12 +1,12 @@
 /*
- * pi-radiogadget-flash: push a new pi-radiogadget daemon binary to the Pi over the USB link it already provides.
+ * pi-radio-gadget-flash: push a new pi-radio-gadget daemon binary to the Pi over the USB link it already provides.
  *
- *   pi-radiogadget-flash --status
- *   pi-radiogadget-flash --stop        (maintenance mode: stop the service for good, get SSH over WiFi back)
- *   pi-radiogadget-flash [--force] path/to/pi-radiogadget      (a static aarch64 build)
+ *   pi-radio-gadget-flash --status
+ *   pi-radio-gadget-flash --stop        (maintenance mode: stop the service for good, get SSH over WiFi back)
+ *   pi-radio-gadget-flash [--force] path/to/pi-radio-gadget      (a static aarch64 build)
  *
  * Talks to the device (USB 0a5c:0bdc) with vendor control requests through usbfs, no libusb needed. Needs access to
- * /dev/bus/usb/BBB/DDD: run it as root, or install dist/70-pi-radiogadget.rules.
+ * /dev/bus/usb/BBB/DDD: run it as root, or install dist/70-pi-radio-gadget.rules.
  */
 #include <dirent.h>
 #include <errno.h>
@@ -140,7 +140,7 @@ int main(int argc, char **argv)
             return 1;
         }
         printf("maintenance mode: the service is stopping and stays disabled (the Pi gets its own WiFi and SSH back).\n"
-               "To end it: ssh to the Pi, then  sudo rm /boot/firmware/pi-radiogadget.disable && sudo systemctl start pi-radiogadget\n");
+               "To end it: ssh to the Pi, then  sudo rm /boot/firmware/pi-radio-gadget.disable && sudo systemctl start pi-radio-gadget\n");
         return 0;
     }
 
