@@ -1,0 +1,33 @@
+[Unit]
+Description=Raspberry Pi as a USB WiFi + Bluetooth dongle for a PC
+Documentation=file:///opt/pi-radiogadget/README.md
+# The Bluetooth controller must be free of bluetoothd, and the old prototype services (if any) hold the UDC.
+Conflicts=bluetooth.service btgadget.service wifigadget.service
+After=local-fs.target sysinit.target
+# Escape hatch: create an empty file /boot/firmware/pi-radiogadget.disable (editable from any PC by mounting the
+# SD card's boot partition) to stop the service from starting, e.g. to get SSH over WiFi back.
+ConditionPathExists=!/boot/firmware/pi-radiogadget.disable
+# Not WantedBy network-online: when this runs, the Pi's own WiFi belongs to the PC.
+
+# Give up after repeated failures instead of looping forever: the failed service has already handed the
+# WiFi interface back (ExecStopPost), so the Pi is reachable over WiFi/SSH for diagnosis.
+StartLimitIntervalSec=600
+StartLimitBurst=6
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/default/pi-radiogadget
+ExecStartPre=-/opt/pi-radiogadget/pi-radiogadget-update.sh
+ExecStartPre=/opt/pi-radiogadget/pi-radiogadget-setup.sh up
+ExecStart=/opt/pi-radiogadget/pi-radiogadget --udc-file /sys/kernel/config/usb_gadget/piradiogadget/UDC --log-file /boot/firmware/pi-radiogadget.log $PI_RADIOGADGET_ARGS
+ExecStopPost=/opt/pi-radiogadget/pi-radiogadget-setup.sh down
+ExecStopPost=-/opt/pi-radiogadget/pi-radiogadget-radio.sh restore
+Restart=on-failure
+RestartSec=3
+TimeoutStartSec=90
+TimeoutStopSec=20
+# Stopping must also take the private wpa_supplicant child down with it.
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target
